@@ -29,6 +29,16 @@ local function LoadAnimDict(dict)
     end
 end
 
+-- This only works with mp peds, everyone else will be male regardless. IsPedMale() returns true regardless, so this is better.
+local function GetPedGender(ped)
+    if GetEntityModel(ped) == GetHashKey("mp_f_freemode_01") then
+        return "female"
+    else
+        return "male"
+    end
+end
+
+
 -- Checkers/Getters Functions --
 local function GetNearbyPeds()
 	local handle, ped = FindFirstPed()
@@ -146,7 +156,7 @@ end
 
 local function PlaySexScene(scene, hooker, vehicle)
     local playerPed = PlayerPedId()
-    local playerGender = IsPedMale(playerPed) and "male" or "female"
+    local playerGender = GetPedGender(playerPed)
     local timer = 8
     local speach = {}
     local animation = {
