@@ -12,11 +12,11 @@ local function DisplayHelpText(msg)
 end
 
 local function DisplayHint(msg, time)
-	Citizen.CreateThread(function()
+	CreateThread(function()
         local endTime = GetGameTimer() + time
         while GetGameTimer() < endTime do
             DisplayHelpText(msg)
-            Citizen.Wait(0)
+            Wait(0)
         end
         ClearHelp(true)
     end)
@@ -25,7 +25,7 @@ end
 local function LoadAnimDict(dict)
     RequestAnimDict(dict)
     while not HasAnimDictLoaded(dict) do
-        Citizen.Wait(0)
+        Wait(0)
     end
 end
 
@@ -150,7 +150,7 @@ local function PlaySexSceneAnim(hooker, playerPed, hookerAnim, playerAnim, flag,
     TaskPlayAnim(playerPed, "mini@prostitutes@sexnorm_veh", playerAnim, 2.0, 2.0, animTime, flag, 0.0, true, true, true)
 
     if sync then
-        Citizen.Wait(animTime)
+        Wait(animTime)
     end
 end
 
@@ -219,12 +219,12 @@ local function PlaySexScene(scene, hooker, vehicle)
     PlaySexSceneAnim(hooker, playerPed, animation.hooker.loop, animation.player.loop, 1, false)
 
     if scene == "SERVICE_SEX" then
-        Citizen.CreateThread(function()
-            Citizen.Wait(250)
+        CreateThread(function()
+            Wait(250)
 
             while timer > 0 do
                 ApplyForceToEntity(vehicle, 1, 0.0, 0.0, -0.5, 0.0, 0.0, 0.0, 0, true, true, true, true, false)
-                Citizen.Wait(780)
+                Wait(780)
             end
         end)
     end
@@ -233,7 +233,7 @@ local function PlaySexScene(scene, hooker, vehicle)
         if not DoesEntityExist(hooker) then return end
 
         PlayHookerSpeach(hooker, speach.name, speach.param)
-        Citizen.Wait(loopWait)
+        Wait(loopWait)
 
         timer = timer - 1
     end
@@ -245,7 +245,7 @@ local function PlaySexScene(scene, hooker, vehicle)
 end
 
 local function DisableVehicleMovementLoop()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while disableVehicleMovement do
             DisableControlAction(0, 59, true)
             DisableControlAction(0, 60, true)
@@ -256,7 +256,7 @@ local function DisableVehicleMovementLoop()
             DisableControlAction(0, 71, true)
             DisableControlAction(0, 72, true)
             DisableControlAction(0, 73, true)
-            Citizen.Wait(0)
+            Wait(0)
         end
     end)
 end
@@ -271,7 +271,7 @@ end
 
 -- Threads/Loops --
 local function HookerLoop(hooker)
-    Citizen.CreateThread(function()
+    CreateThread(function()
         local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 
         while true do
@@ -286,7 +286,7 @@ local function HookerLoop(hooker)
                 return
             end
     
-            Citizen.Wait(0)
+            Wait(0)
         end
 
         isUsingHooker = true
@@ -317,7 +317,7 @@ local function HookerLoop(hooker)
                 return
             end
 
-            Citizen.Wait(100)
+            Wait(100)
         end
 
         -- Hooker tells player to go to secluded area
@@ -325,7 +325,7 @@ local function HookerLoop(hooker)
 
         -- Wait until she was finished speaking before we give hint to player
         while IsAnySpeechPlaying(hooker) do
-            Citizen.Wait(100)
+            Wait(100)
         end
 
         local timeToFindArea = 120 * 1000
@@ -336,7 +336,7 @@ local function HookerLoop(hooker)
 
         -- Wait until we are in a secluded area
         while true do
-            Citizen.Wait(500)
+            Wait(500)
 
             -- If something wen wrong the cancel
             if not DoesEntityExist(hooker) then
@@ -366,11 +366,11 @@ local function HookerLoop(hooker)
                 TaskLeaveVehicle(hooker, vehicle, 0)
 
                 while IsAnySpeechPlaying(hooker) do
-                    Citizen.Wait(100)
+                    Wait(100)
                 end
 
                 DisplayHint(Config.Localization.FindSecludedAreaFailed, 5000)
-                Citizen.Wait(5000)
+                Wait(5000)
 
                 ResetHookerCalm(hooker)
                 HookerInteractionCanceled()
@@ -382,10 +382,10 @@ local function HookerLoop(hooker)
             if not isShowingHint and vehicleSpeed <= Config.MaxVehicleSpeed then
                 isShowingHint = true
 
-                Citizen.Wait(500)
+                Wait(500)
 
                 -- Only check if we are in a secluded area every 500ms even when we stand still
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     while true do
                         vehicleSpeed = GetEntitySpeed(vehicle)
                         if vehicleSpeed > Config.MaxVehicleSpeed then
@@ -393,15 +393,15 @@ local function HookerLoop(hooker)
                             isShowingHint = false
                             break
                         end
-                        Citizen.Wait(500)
+                        Wait(500)
                     end
                 end)
 
                 -- Display the help text
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     while not shouldAsyncThreadsBreak do
                         DisplayHelpText(Config.Localization.FindSecludedArea)
-                        Citizen.Wait(0)
+                        Wait(0)
                     end
                 end)
             end
@@ -410,12 +410,12 @@ local function HookerLoop(hooker)
         SetVehicleLights(vehicle, 1) -- Turn off vehicle lights
         DisableVehicleMovement(true) -- Disable vehicle movement
 
-        Citizen.Wait(500)
+        Wait(500)
         PlayHookerSpeach(hooker, "HOOKER_OFFER_SERVICE", "SPEECH_PARAMS_FORCE_SHOUTED_CLEAR")
         PlaySexSceneAnim(hooker, PlayerPedId(), "proposition_loop_prostitute", "proposition_loop_male", 1, false)
 
         while IsAnySpeechPlaying(hooker) do
-            Citizen.Wait(100)
+            Wait(100)
         end
 
         -- Offer services loop
@@ -447,7 +447,7 @@ local function HookerLoop(hooker)
                 servicesCompleted = servicesCompleted + 1
             end
             
-            Citizen.Wait(100)
+            Wait(100)
         end
 
         if servicesCompleted >= Config.MaxServices then
@@ -464,18 +464,18 @@ local function HookerLoop(hooker)
         TaskLeaveVehicle(hooker, vehicle, 0)
         DisableVehicleMovement(false)
 
-        Citizen.Wait(2000)
+        Wait(2000)
         SetVehicleLights(vehicle, 0)
 
         -- Reset
-        Citizen.Wait(5000)
+        Wait(5000)
         ResetHookerCalm(hooker)
         HookerInteractionCanceled()
     end)
 end
 
 local function LookingForHookerThread()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         if isUsingHooker then
             return
         end
@@ -510,7 +510,7 @@ local function LookingForHookerThread()
                         while dist < Config.MaxDistance do
                             dist = #(GetEntityCoords(ped) - GetEntityCoords(vehicle))
                             DisplayHelpText(Config.Localization.VehicleUnsuitable)
-                            Citizen.Wait(0)
+                            Wait(0)
                         end
                     end
 
@@ -518,7 +518,7 @@ local function LookingForHookerThread()
                         while dist < Config.MaxDistance do
                             dist = #(GetEntityCoords(ped) - GetEntityCoords(vehicle))
                             DisplayHelpText(Config.Localization.FrontSeatOccupied)
-                            Citizen.Wait(0)
+                            Wait(0)
                         end
                     else
                         isHookerThreadActive = false
@@ -530,7 +530,7 @@ local function LookingForHookerThread()
                 end
             end
             
-            Citizen.Wait(500)
+            Wait(500)
         end
         isHookerThreadActive = false
     end)

@@ -23,7 +23,7 @@ local menu = {
 local function LoadStreamedTextureDict(textureDict)
     RequestStreamedTextureDict(textureDict, false)
     if not HasStreamedTextureDictLoaded(textureDict) then
-        Citizen.Wait(100)
+        Wait(100)
     end
 end
 
@@ -118,22 +118,22 @@ local function HandleControls()
     -- Exits the menu
 	if IsControlJustPressed(1, 202) then
 		serviceSelected = "SERVICE_DECLINE"
-		Citizen.Wait(100)
+		Wait(100)
 	end
 end
 
 local function MenuThreads()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while ServicesMenu.IsOpen do
 			DrawMenu()
-			Citizen.Wait(0)
+			Wait(0)
 		end
 	end)
 	
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while ServicesMenu.IsOpen do
 			HandleControls()
-			Citizen.Wait(0)
+			Wait(0)
 		end
 	end)
 end
@@ -164,7 +164,7 @@ function OfferServices()
 	OpenMenu()
 	
 	while not serviceSelected do
-		Citizen.Wait(25)
+		Wait(25)
 	end
 
 	CloseMenu()
