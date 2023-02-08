@@ -1,6 +1,6 @@
 Config = {}
 
--- THe max distnace from a hooker you can pick them up
+-- The max distnace from a hooker you can pick them up
 Config.MaxDistance = 7.5
 
 -- The maximum amount of services a hooker will accept before they leave
