@@ -105,7 +105,7 @@ local function HandleControls()
 		end
 		ServicesMenu.Line.current = newLine
 
-		Citizen.Wait(75)
+		Wait(150)
 	end
 
     -- Selected current button
