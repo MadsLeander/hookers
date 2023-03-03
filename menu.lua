@@ -46,8 +46,8 @@ end
 local function GetButtons()
 	local allButtons = ServicesMenu.Buttons
 	if not allButtons then return {} end
-    
 	ServicesMenu.TempData = { allButtons, #allButtons }
+
 
 	return allButtons, #allButtons
 end
@@ -129,7 +129,7 @@ local function MenuThreads()
 			Wait(0)
 		end
 	end)
-	
+
 	CreateThread(function()
 		while ServicesMenu.IsOpen do
 			HandleControls()
@@ -151,10 +151,10 @@ end
 local function OpenMenu()
 	LoadStreamedTextureDict("CommonMenu")
 	local newButtons, buttonsCount = GetButtons()
-	
 	ServicesMenu.Line = { min = 1, max = buttonsCount, current = 1 }
 	ServicesMenu.TempData = { newButtons, buttonsCount }
 	ServicesMenu.IsOpen = true
+
 
 	MenuThreads()
 end
@@ -162,7 +162,7 @@ end
 
 function OfferServices()
 	OpenMenu()
-	
+
 	while not serviceSelected do
 		Wait(25)
 	end

@@ -82,7 +82,7 @@ function CanVehiclePickUpHookers(vehicle)
     if Config.BlackListedVehicleClasses[class] then
         return false
     end
-    
+
     return true
 end
 
@@ -285,7 +285,7 @@ local function HookerLoop(hooker)
                 HookerInteractionCanceled()
                 return
             end
-    
+
             Wait(0)
         end
 
@@ -446,7 +446,7 @@ local function HookerLoop(hooker)
                 PlaySexScene(service, hooker, vehicle)
                 servicesCompleted = servicesCompleted + 1
             end
-            
+
             Wait(100)
         end
 
@@ -487,7 +487,7 @@ local function LookingForHookerThread()
             if not vehicle then
                 break
             end
-            
+
             local vehicleSpeed = GetEntitySpeed(vehicle)
             if vehicleSpeed <= Config.MaxVehicleSpeed then
                 local vehicleCoords = GetEntityCoords(vehicle)
@@ -529,7 +529,7 @@ local function LookingForHookerThread()
                     ::nextPed::
                 end
             end
-            
+
             Wait(500)
         end
         isHookerThreadActive = false
