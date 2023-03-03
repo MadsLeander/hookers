@@ -1,5 +1,5 @@
 local serviceSelected = nil
-local ServicesMenu = {
+local servicesMenu = {
     Title = "Services Available",
     Buttons = {
         { service = "SERVICE_BLOWJOB", label = "Blow Job" },
@@ -44,10 +44,10 @@ local function DrawText(intFont, stirngText, floatScale, intPosX, intPosY, color
 end
 
 local function GetButtons()
-	local allButtons = ServicesMenu.Buttons
+	local allButtons = servicesMenu.Buttons
 	if not allButtons then return {} end
-	ServicesMenu.TempData = { allButtons, #allButtons }
 
+	servicesMenu.TempData = { allButtons, #allButtons }
 
 	return allButtons, #allButtons
 end
@@ -62,24 +62,24 @@ local function DrawMenuButton(button, intX, intY, boolSelected, intW, intH)
 end
 
 local function DrawTitle()
-	DrawRect(ServicesMenu.Width - menu.width / 2, ServicesMenu.Height - menu.height / 2, menu.width, menu.height, colour.black[1], colour.black[2], colour.black[3], 255)
-	ServicesMenu.Height = ServicesMenu.Height + 0.005
+	DrawRect(servicesMenu.Width - menu.width / 2, servicesMenu.Height - menu.height / 2, menu.width, menu.height, colour.black[1], colour.black[2], colour.black[3], 255)
+	servicesMenu.Height = servicesMenu.Height + 0.005
 
-	DrawText(0, ServicesMenu.Title, 0.35, ServicesMenu.Width - menu.width + 0.005, ServicesMenu.Height - menu.height - 0.002, colour.white)
-	ServicesMenu.Height = ServicesMenu.Height + 0.01
+	DrawText(0, servicesMenu.Title, 0.35, servicesMenu.Width - menu.width + 0.005, servicesMenu.Height - menu.height - 0.002, colour.white)
+	servicesMenu.Height = servicesMenu.Height + 0.01
 end
 
 local function DrawButtons()
-	for index, data in ipairs(ServicesMenu.Buttons) do
-        local boolSelected = index == ServicesMenu.Line.current
-        DrawMenuButton(data, ServicesMenu.Width - menu.width / 2, ServicesMenu.Height, boolSelected, menu.width, menu.height)
-        ServicesMenu.Height = ServicesMenu.Height + menu.height
+	for index, data in ipairs(servicesMenu.Buttons) do
+        local boolSelected = index == servicesMenu.Line.current
+        DrawMenuButton(data, servicesMenu.Width - menu.width / 2, servicesMenu.Height, boolSelected, menu.width, menu.height)
+        servicesMenu.Height = servicesMenu.Height + menu.height
     end
 end
 
 local function DrawMenu()
-	ServicesMenu.Height = menu.y
-	ServicesMenu.Width = menu.x
+	servicesMenu.Height = menu.y
+	servicesMenu.Width = menu.x
 
 	DrawTitle()
 	DrawButtons()
@@ -91,19 +91,19 @@ local function HandleControls()
 	if moveUp or moveDown then
 		PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FREEMODE_SOUNDSET", true)
 
-		local newLine = ServicesMenu.Line.current
+		local newLine = servicesMenu.Line.current
 		if moveUp then
 			newLine = newLine - 1
-			if newLine < ServicesMenu.Line.min then
-				newLine = ServicesMenu.Line.max
+			if newLine < servicesMenu.Line.min then
+				newLine = servicesMenu.Line.max
 			end
 		elseif moveDown then
 			newLine = newLine + 1
-			if newLine > ServicesMenu.Line.max then
-				newLine = ServicesMenu.Line.min
+			if newLine > servicesMenu.Line.max then
+				newLine = servicesMenu.Line.min
 			end
 		end
-		ServicesMenu.Line.current = newLine
+		servicesMenu.Line.current = newLine
 
 		Wait(150)
 	end
@@ -111,8 +111,8 @@ local function HandleControls()
     -- Selected current button
     if IsControlJustPressed(1, 201) then
 		PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
-		local currentButtons = table.unpack(ServicesMenu.TempData)
-        ServicesMenu.OnButtonSelected(currentButtons[ServicesMenu.Line.current])
+		local currentButtons = table.unpack(servicesMenu.TempData)
+        servicesMenu.OnButtonSelected(currentButtons[servicesMenu.Line.current])
     end
 
     -- Exits the menu
@@ -124,14 +124,14 @@ end
 
 local function MenuThreads()
 	CreateThread(function()
-		while ServicesMenu.IsOpen do
+		while servicesMenu.IsOpen do
 			DrawMenu()
 			Wait(0)
 		end
 	end)
 
 	CreateThread(function()
-		while ServicesMenu.IsOpen do
+		while servicesMenu.IsOpen do
 			HandleControls()
 			Wait(0)
 		end
@@ -139,10 +139,10 @@ local function MenuThreads()
 end
 
 local function CloseMenu()
-	if ServicesMenu.IsOpen then
-		ServicesMenu.IsOpen = false
-		ServicesMenu.TempData = {}
-		ServicesMenu.Line = {}
+	if servicesMenu.IsOpen then
+		servicesMenu.IsOpen = false
+		servicesMenu.TempData = {}
+		servicesMenu.Line = {}
 
 		UnloadStreamedTextureDict("CommonMenu")
 	end
@@ -151,10 +151,10 @@ end
 local function OpenMenu()
 	LoadStreamedTextureDict("CommonMenu")
 	local newButtons, buttonsCount = GetButtons()
-	ServicesMenu.Line = { min = 1, max = buttonsCount, current = 1 }
-	ServicesMenu.TempData = { newButtons, buttonsCount }
-	ServicesMenu.IsOpen = true
 
+	servicesMenu.Line = { min = 1, max = buttonsCount, current = 1 }
+	servicesMenu.TempData = { newButtons, buttonsCount }
+	servicesMenu.IsOpen = true
 
 	MenuThreads()
 end
