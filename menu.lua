@@ -159,7 +159,6 @@ local function OpenMenu()
 	MenuThreads()
 end
 
-
 function OfferServices()
 	OpenMenu()
 
@@ -173,4 +172,3 @@ function OfferServices()
 
 	return service
 end
-
