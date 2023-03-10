@@ -9,13 +9,21 @@ Config.MaxServices = 3
 -- The maximum speed (meters per seconds) your vehicle can have before it checks for nearby hookers etc.
 Config.MaxVehicleSpeed = 0.1
 
+Config.PaymentEnabled = false
+Config.Framework = "esx" -- "esx", "qbcore" or "standalone" (used for the payments)
+Config.Prices = {
+    SERVICE_BLOWJOB = 50,
+    SERVICE_SEX = 100
+}
+
 -- Localization
 Config.Localization = {
     InviteHooker = "Press ~INPUT_VEH_HORN~ or honk your horn to invite the prostitute into the vehicle.",
     FindSecludedArea = "Go somewhere more secluded.",
     FindSecludedAreaFailed = "You did not find a secluded area in time.",
     VehicleUnsuitable = "You cannot pick up hookers in this vehicle.",
-    FrontSeatOccupied = "The front seat needs to be empty to invite a hooker."
+    FrontSeatOccupied = "The front seat needs to be empty to invite a hooker.",
+    NotEnoughMoney = "You don't have enough money!"
 }
 
 -- The peds that are considered hookers. (be carefull what you add here.)

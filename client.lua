@@ -2,6 +2,7 @@ local isHookerThreadActive = false
 local isUsingHooker = false
 local disableVehicleMovement = false
 local hookerModels = Config.HookerPedModels
+local hasPayed = nil
 
 
 -- Utils --
@@ -20,6 +21,12 @@ local function DisplayHint(msg, time)
         end
         ClearHelp(true)
     end)
+end
+
+local function DisplayNotification(message)
+    BeginTextCommandThefeedPost("STRING")
+    AddTextComponentSubstringPlayerName(message)
+    EndTextCommandThefeedPostTicker(false, true)
 end
 
 local function LoadAnimDict(dict)
@@ -443,8 +450,25 @@ local function HookerLoop(hooker)
             if service == "SERVICE_DECLINE" then
                 break
             else
-                PlaySexScene(service, hooker, vehicle)
-                servicesCompleted = servicesCompleted + 1
+                if Config.PaymentEnabled then
+                    TriggerServerEvent('hookers:moneyCheck', service)
+                    while hasPayed == nil do
+                        Wait(100)
+                    end
+
+                    if not hasPayed then
+                        hasPayed = nil
+                        DisplayNotification(Config.Localization.NotEnoughMoney)
+                        break
+                    end
+
+                    hasPayed = nil
+                    PlaySexScene(service, hooker, vehicle)
+                    servicesCompleted = servicesCompleted + 1
+                else
+                    PlaySexScene(service, hooker, vehicle)
+                    servicesCompleted = servicesCompleted + 1
+                end
             end
 
             Wait(100)
@@ -559,4 +583,9 @@ AddEventHandler('gameEventTriggered', function(event, args)
             LookingForHookerThread()
         end
     end
+end)
+
+RegisterNetEvent('hookser:paymentReturn')
+AddEventHandler('hookser:paymentReturn', function(state)
+    hasPayed = state
 end)

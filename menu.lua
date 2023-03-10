@@ -2,8 +2,8 @@ local serviceSelected = nil
 local servicesMenu = {
     Title = "Services Available",
     Buttons = {
-        { service = "SERVICE_BLOWJOB", label = "Blow Job" },
-        { service = "SERVICE_SEX", label = "Sex" },
+        { service = "SERVICE_BLOWJOB", label = "Blow Job", price = Config.PaymentEnabled and Config.Prices.SERVICE_BLOWJOB or nil },
+        { service = "SERVICE_SEX", label = "Sex", price = Config.PaymentEnabled and Config.Prices.SERVICE_SEX or nil },
         { service = "SERVICE_DECLINE", label = "Decline Service" },
     },
     OnButtonSelected = function(button)
@@ -58,7 +58,8 @@ local function DrawMenuButton(button, intX, intY, boolSelected, intW, intH)
 	DrawRect(intX, intY, intW, intH, rectColour[1], rectColour[2], rectColour[3], rectAlpha)
 
 	local textColour = boolSelected and colour.black or colour.white
-	DrawText(0, button.label, 0.35, intX - intW / 2 + 0.005, intY - intH / 2 + 0.0025, textColour)
+	local text = button.price and string.format("%s ($%s)", button.label, button.price) or button.label
+	DrawText(0, text, 0.35, intX - intW / 2 + 0.005, intY - intH / 2 + 0.0025, textColour)
 end
 
 local function DrawTitle()
