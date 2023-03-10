@@ -28,9 +28,9 @@ Config.Localization = {
 
 -- The peds that are considered hookers. (be carefull what you add here.)
 Config.HookerPedModels = {
-    [42647445] = true,
-    [348382215] = true,
-    [51789996] = true,
+    [`s_f_y_hooker_01`] = true,
+    [`s_f_y_hooker_02`] = true,
+    [`s_f_y_hooker_03`] = true
 }
 
 -- The vehicle classes that can't be used to pick up hookers
