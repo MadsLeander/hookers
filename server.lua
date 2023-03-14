@@ -19,7 +19,7 @@ AddEventHandler('hookers:moneyCheck', function(service)
 
     if Config.Framework == "esx" then
         local xPlayer = ESX.GetPlayerFromId(source)
-        local cash = 49--xPlayer.getMoney()
+        local cash = xPlayer.getMoney()
 
         if cash >= cost then
             xPlayer.removeMoney(cost)
