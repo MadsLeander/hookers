@@ -1,7 +1,4 @@
-local ESX = nil
-if Config.Framework == "esx" then
-    TriggerEvent("esx:getSharedObject", function(obj) ESX = obj end)
-end
+ESX = exports["es_extended"]:getSharedObject()
 
 local QBCore = nil
 if Config.Framework == "qbcore" then
