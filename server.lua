@@ -1,4 +1,7 @@
-ESX = exports["es_extended"]:getSharedObject()
+local ESX = nil
+if Config.Framework == "esx" then
+    ESX = exports["es_extended"]:getSharedObject()
+end
 
 local QBCore = nil
 if Config.Framework == "qbcore" then
