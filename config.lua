@@ -10,7 +10,7 @@ Config.MaxServices = 3
 Config.MaxVehicleSpeed = 0.1
 
 Config.PaymentEnabled = false
-Config.Framework = "esx" -- "esx", "qbcore", "ndcore" or "standalone" (used for the payments)
+Config.Framework = "standalone" -- "esx", "qbcore", "ndcore" or "standalone" (used for the payments)
 Config.Prices = {
     SERVICE_BLOWJOB = 50,
     SERVICE_SEX = 100
