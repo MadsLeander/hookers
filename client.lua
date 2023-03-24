@@ -151,12 +151,12 @@ local function IsInSecludedArea(hooker, vehicle)
     return true
 end
 
-local function PlaySexSceneAnim(hooker, playerPed, hookerAnim, playerAnim, flag, sync)
+local function PlaySexSceneAnim(hooker, playerPed, hookerAnim, playerAnim, flag, wait)
     local animTime = GetAnimDuration("mini@prostitutes@sexnorm_veh", hookerAnim) * 1000
     TaskPlayAnim(hooker, "mini@prostitutes@sexnorm_veh", hookerAnim, 2.0, 2.0, animTime, flag, 0.0, true, true, true)
     TaskPlayAnim(playerPed, "mini@prostitutes@sexnorm_veh", playerAnim, 2.0, 2.0, animTime, flag, 0.0, true, true, true)
 
-    if sync then
+    if wait then
         Wait(animTime)
     end
 end
