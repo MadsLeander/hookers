@@ -14,3 +14,8 @@ client_scripts {
 }
 
 server_script 'server.lua'
+
+dependencies {
+	'/gameBuild:2060' -- Needed due to usage of game events.
+}
+
