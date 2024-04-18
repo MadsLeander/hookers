@@ -4,6 +4,8 @@ local disableVehicleControls = false
 local hookerModels = Config.HookerPedModels
 local hasPayed = nil
 
+local PLAYER_ID <const> = PlayerId()
+
 -- Vehicle controls that will get disabled while interacting with a hooker in your car
 local VEHICLE_CONTROLS <const> = {
     [59] = true, -- INPUT_VEH_MOVE_LR
@@ -288,7 +290,7 @@ local function HookerLoop(hooker)
             vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
             if vehicle ~= 0 and #(GetEntityCoords(vehicle) - GetEntityCoords(hooker)) < Config.MaxDistance and GetEntitySpeed(vehicle) <= Config.MaxVehicleSpeed then
                 DisplayHelpText(Config.Localization.InviteHooker)
-                if IsPlayerPressingHorn(PlayerId()) then
+                if IsPlayerPressingHorn(PLAYER_ID) then
                     break
                 end
             else
@@ -574,7 +576,7 @@ end
 -- Events --
 AddEventHandler('gameEventTriggered', function(event, args)
     if event == "CEventNetworkPlayerEnteredVehicle" then
-        if args[1] == PlayerId() then
+        if args[1] == PLAYER_ID then
             if isHookerThreadActive then
                 return
             end
