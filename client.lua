@@ -1,8 +1,22 @@
 local isHookerThreadActive = false
 local isUsingHooker = false
-local disableVehicleMovement = false
+local disableVehicleControls = false
 local hookerModels = Config.HookerPedModels
 local hasPayed = nil
+
+-- Vehicle controls that will get disabled while interacting with a hooker in your car
+local VEHICLE_CONTROLS <const> = {
+    [59] = true, -- INPUT_VEH_MOVE_LR
+    [60] = true, -- INPUT_VEH_MOVE_UD
+    [61] = true, -- INPUT_VEH_MOVE_UP_ONLY
+    [62] = true, -- INPUT_VEH_MOVE_DOWN_ONLY
+    [63] = true, -- INPUT_VEH_MOVE_LEFT_ONLY
+    [64] = true, -- INPUT_VEH_MOVE_RIGHT_ONLY
+    [71] = true, -- INPUT_VEH_ACCELERATE
+    [72] = true, -- INPUT_VEH_BRAKE
+    [73] = true, -- INPUT_VEH_DUCK
+    [86] = true  -- INPUT_VEH_HORN
+}
 
 
 -- Utils --
@@ -250,27 +264,20 @@ local function PlaySexScene(scene, hooker, vehicle)
     PlaySexSceneAnim(hooker, playerPed, "proposition_loop_prostitute", "proposition_loop_male", 1, false)
 end
 
-local function DisableVehicleMovementLoop()
-    CreateThread(function()
-        while disableVehicleMovement do
-            DisableControlAction(0, 59, true)
-            DisableControlAction(0, 60, true)
-            DisableControlAction(0, 61, true)
-            DisableControlAction(0, 62, true)
-            DisableControlAction(0, 63, true)
-            DisableControlAction(0, 64, true)
-            DisableControlAction(0, 71, true)
-            DisableControlAction(0, 72, true)
-            DisableControlAction(0, 73, true)
-            Wait(0)
+local function DisableVehicleControlsLoop()
+    while disableVehicleControls do
+        for control, state in pairs(VEHICLE_CONTROLS) do
+            DisableControlAction(0, control, state)
         end
-    end)
+
+        Wait(0)
+    end
 end
 
-local function DisableVehicleMovement(state)
-    disableVehicleMovement = state
-    if disableVehicleMovement then
-        DisableVehicleMovementLoop()
+local function DisableVehicleControls(state)
+    disableVehicleControls = state
+    if disableVehicleControls then
+        CreateThread(DisableVehicleControlsLoop)
     end
 end
 
@@ -414,7 +421,7 @@ local function HookerLoop(hooker)
         end
 
         SetVehicleLights(vehicle, 1) -- Turn off vehicle lights
-        DisableVehicleMovement(true) -- Disable vehicle movement
+        DisableVehicleControls(true) -- Disable vehicle movement
 
         Wait(500)
         PlayHookerSpeach(hooker, "HOOKER_OFFER_SERVICE", "SPEECH_PARAMS_FORCE_SHOUTED_CLEAR")
@@ -429,7 +436,7 @@ local function HookerLoop(hooker)
         while true do
             if not DoesEntityExist(hooker) then
                 HookerInteractionCanceled()
-                DisableVehicleMovement(false)
+                DisableVehicleControls(false)
                 return
             end
 
@@ -485,7 +492,7 @@ local function HookerLoop(hooker)
         ClearPedTasks(PlayerPedId())
 
         TaskLeaveVehicle(hooker, vehicle, 0)
-        DisableVehicleMovement(false)
+        DisableVehicleControls(false)
 
         Wait(2000)
         SetVehicleLights(vehicle, 0)
