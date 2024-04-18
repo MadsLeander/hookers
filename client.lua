@@ -230,8 +230,6 @@ local function PlaySexScene(scene, hooker, vehicle)
         animation.player.exit2 = "sex_to_proposition_p2_male"
     end
 
-    LoadAnimDict("mini@prostitutes@sexnorm_veh")
-
     PlaySexSceneAnim(hooker, playerPed, animation.hooker.enter1, animation.player.enter1, 2, true)
     PlaySexSceneAnim(hooker, playerPed, animation.hooker.enter2, animation.player.enter2, 2, true)
 
@@ -260,7 +258,6 @@ local function PlaySexScene(scene, hooker, vehicle)
 
     PlaySexSceneAnim(hooker, playerPed, animation.hooker.exit1, animation.player.exit1, 2, true)
     PlaySexSceneAnim(hooker, playerPed, animation.hooker.exit2, animation.player.exit2, 2, true)
-
     PlaySexSceneAnim(hooker, playerPed, "proposition_loop_prostitute", "proposition_loop_male", 1, false)
 end
 
@@ -422,6 +419,7 @@ local function HookerLoop(hooker)
 
         SetVehicleLights(vehicle, 1) -- Turn off vehicle lights
         DisableVehicleControls(true) -- Disable vehicle movement
+        LoadAnimDict("mini@prostitutes@sexnorm_veh")
 
         Wait(500)
         PlayHookerSpeach(hooker, "HOOKER_OFFER_SERVICE", "SPEECH_PARAMS_FORCE_SHOUTED_CLEAR")
@@ -490,6 +488,7 @@ local function HookerLoop(hooker)
 
         ClearPedTasks(hooker)
         ClearPedTasks(PlayerPedId())
+        RemoveAnimDict("mini@prostitutes@sexnorm_veh")
 
         TaskLeaveVehicle(hooker, vehicle, 0)
         DisableVehicleControls(false)
