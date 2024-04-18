@@ -38,7 +38,7 @@ end
 
 -- This only works with mp peds, everyone else will be male regardless. IsPedMale() returns true regardless, so this is better.
 local function GetPedGender(ped)
-    if GetEntityModel(ped) == GetHashKey("mp_f_freemode_01") then
+    if GetEntityModel(ped) == `mp_f_freemode_01` then
         return "female"
     else
         return "male"
@@ -105,7 +105,7 @@ end
 -- AI Behavior --
 local function MakeHookerCalm(hooker)
     local _void, groupHash = AddRelationshipGroup("ProstituteInPlay")
-    SetRelationshipBetweenGroups(1, groupHash, GetHashKey("PLAYER"))
+    SetRelationshipBetweenGroups(1, groupHash, `PLAYER`)
     SetPedRelationshipGroupHash(hooker, groupHash)
 
     -- Not sure what the two first are found them in the single player prostitute script, I just assume they do something.
