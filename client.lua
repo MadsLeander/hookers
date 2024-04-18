@@ -108,16 +108,15 @@ local function MakeHookerCalm(hooker)
     SetRelationshipBetweenGroups(1, groupHash, `PLAYER`)
     SetPedRelationshipGroupHash(hooker, groupHash)
 
-    -- Not sure what the two first are found them in the single player prostitute script, I just assume they do something.
-    SetPedConfigFlag(hooker, 26, true)            -- _0x034F3053 
-    SetPedConfigFlag(hooker, 115, true)           -- _0x0D2A9309
+    SetPedConfigFlag(hooker, 26, true)            -- CPED_CONFIG_FLAG_DontDragMeOutCar
+    SetPedConfigFlag(hooker, 115, true)           -- CPED_CONFIG_FLAG_FallOutOfVehicleWhenKilled
     SetPedConfigFlag(hooker, 229, true)           -- CPED_CONFIG_FLAG_DisablePanicInVehicle 
     SetBlockingOfNonTemporaryEvents(hooker, true) -- Makes the hooker not react to everything around them
 end
 
 local function ResetHookerCalm(hooker)
-    SetPedConfigFlag(hooker, 26, false)            -- _0x034F3053 
-    SetPedConfigFlag(hooker, 115, false)           -- _0x0D2A9309
+    SetPedConfigFlag(hooker, 26, false)            -- CPED_CONFIG_FLAG_DontDragMeOutCar
+    SetPedConfigFlag(hooker, 115, false)           -- CPED_CONFIG_FLAG_FallOutOfVehicleWhenKilled
     SetPedConfigFlag(hooker, 229, false)           -- CPED_CONFIG_FLAG_DisablePanicInVehicle 
     SetBlockingOfNonTemporaryEvents(hooker, false) -- Makes the hooker not react to everything around them
 end
