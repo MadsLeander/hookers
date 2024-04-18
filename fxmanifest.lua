@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Mads'
 description 'Hookers'
-version '1.0.1b'
+version '1.1.0'
 
 shared_script 'config.lua'
 
