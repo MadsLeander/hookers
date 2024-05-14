@@ -106,6 +106,11 @@ function CanVehiclePickUpHookers(vehicle)
         return false
     end
 
+    local model = GetEntityModel(vehicle)
+    if Config.BlackListedVehicles[model] then
+        return false
+    end
+
     return true
 end
 

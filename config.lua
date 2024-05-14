@@ -45,3 +45,23 @@ Config.BlackListedVehicleClasses = {
     [21] = true, -- Trains
     [22] = true, -- Open Wheel
 }
+
+-- Vehicles that can't be used to pick up hookers
+-- These were taken from pb_prostitute.c
+Config.BlackListedVehicles = {
+    [`infernus`] = true,
+    [`voltic`] = true,
+    [`stingergt`] = true,
+    [`stinger`] = true,
+    [`bullet`] = true,
+    [`entityxf`] = true,
+    [`feltzer3`] = true,
+    [`granger`] = true,
+    [`panto`] = true,
+    [`phoenix`] = true,
+    [`fmj`] = true,
+    [`reaper`] = true,
+    [`le7b`] = true,
+    [`tyrus`] = true,
+    [`infernus2`] = true
+}
