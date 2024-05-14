@@ -101,6 +101,10 @@ local function IsPedEligibleHooker(ped)
 end
 
 local function CanVehiclePickUpHookers(vehicle)
+    if not IsVehicleDriveable(vehicle, false) then
+        return false
+    end
+
     local class = GetVehicleClass(vehicle)
     if Config.BlackListedVehicleClasses[class] then
         return false
